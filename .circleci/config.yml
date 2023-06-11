@@ -8,6 +8,15 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.3
 # Orchestrate or schedule a set of jobs
 
+commands:
+  #Exercise - Rollback
+  destroy_environment:
+    steps:
+      - run:
+          name: Destroy environment
+          when: on_fail
+          command: |
+            aws cloudformation delete--stack --stack-name myStack-${Circle_WORKFLOW_ID:0:5}
 jobs:
   # Exercise: Infrastructure Creation
   create_infrastructure: 
@@ -43,8 +52,27 @@ jobs:
           command: |
             ansible-playbook -i inventory.txt main4.yml
 
+  #Exercise: Smoke Testing
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      #- run: apk add --update curl
+      - run:
+          name: test job
+          #command: |
+          #  URL="https://blog.udacity.com"
+          #  if curl -s --head ${URL}
+          #  then 
+          #    return 0
+          #  else
+          #    return 1
+          #  fi  
+          command: return 1
+      - destroy_environment    
 workflows:
   myWorkflow:
     jobs:
-    #  - create_infrastructure
-      - configure_infrastructure
+      - create_infrastructure
+      #- configure_infrastructure
+      - smoke_test
