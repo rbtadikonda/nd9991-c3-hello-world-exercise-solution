@@ -16,7 +16,7 @@ commands:
           name: Destroy environment
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name myStack-${Circle_WORKFLOW_ID:0:5}
+            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
 jobs:
   # Exercise: Infrastructure Creation
   create_infrastructure: 
@@ -31,6 +31,9 @@ jobs:
               --template-file template.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
               --region us-east-1
+      # comment the below line after verifying destroy_environment works
+      - run: return 1        
+      - destroy_environment        
   
   # Exercise: Config and Deployment
   configure_infrastructure:
@@ -75,6 +78,4 @@ workflows:
     jobs:
       - create_infrastructure
       #- configure_infrastructure
-      - smoke_test:
-          requires:
-            - create_infrastructure
+      
