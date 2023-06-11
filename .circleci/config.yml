@@ -16,7 +16,7 @@ commands:
           name: Destroy environment
           when: on_fail
           command: |
-            aws cloudformation delete--stack --stack-name myStack-${Circle_WORKFLOW_ID:0:5}
+            aws cloudformation delete-stack --stack-name myStack-${Circle_WORKFLOW_ID:0:5}
 jobs:
   # Exercise: Infrastructure Creation
   create_infrastructure: 
