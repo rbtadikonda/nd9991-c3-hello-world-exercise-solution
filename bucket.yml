@@ -9,7 +9,9 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub "${MyBucketName}"
-      #AccessControl: public-read
+      #AccessControl: PublicRead
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
       OwnershipControls:
         Rules:
           - ObjectOwnership: ObjectWriter
