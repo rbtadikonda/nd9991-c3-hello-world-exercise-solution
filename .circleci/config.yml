@@ -81,7 +81,7 @@ jobs:
             export OldBucketID=$(cat ~/textfile.txt)
             aws s3 rm "s3://${OldBucketID}" --recursive      
 
-# Orchestrate jobs using workflows
+# Orchestrate jobs using workflows - dummy change
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   #say-hello-workflow:
@@ -92,13 +92,12 @@ workflows:
       #    - say-hello
   my_workflow:
     jobs:
-     # - create_and_deploy_front_end
-     # - promote_to_production:
-     #     requires:
-     #       - create_and_deploy_front_end
-     # - get_last_deployment_id
-      - clean_up_old_front_end
-     # - clean_up_old_front_end:
-     #     requires:
-     #       - get_last_deployment_id
-     #       - promote_to_production        
+      - create_and_deploy_front_end
+      - promote_to_production:
+          requires:
+            - create_and_deploy_front_end
+      - get_last_deployment_id
+      - clean_up_old_front_end:
+          requires:
+            - get_last_deployment_id
+            - promote_to_production        
