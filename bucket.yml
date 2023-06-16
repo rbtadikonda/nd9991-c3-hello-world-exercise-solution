@@ -12,7 +12,7 @@ Resources:
       #AccessControl: public-read
       OwnershipControls:
         Rules:
-          - ObjectWonership: ObjectWriter
+          - ObjectOwnership: ObjectWriter
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
